@@ -58,8 +58,8 @@ while True:
 
 #otherwise if the score of the newlist is the optimal score,
 #print the list and break out of the loop
+    print(''.join(guess),guessScore,counter)
     if guessScore == len(target):
-        print(''.join(guess),guessScore,counter)
         break
 
 #otherwise, set the bestList to the value of the newList
