@@ -3,11 +3,13 @@ November 29, 2017'''
 
 import random
 
-target = "Oh, say can you see, by the dawn's early light?"
+target = "I never go back on my word, because that is my Ninja way."
 characters = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.',?!"
 
 #function to create a "guess" list of characters the same length as target
 def makeList():
+    '''Returns a list of characters the same length
+    as the target'''
     charList = [] #empty list to fill with random characters
     for i in range(len(target)):
         charList.append(random.choice(characters))
@@ -41,13 +43,15 @@ random.seed()
 bestList = makeList()
 bestScore = score(bestList)
 
-counter = 0
+guesses = 0
+improvements = 0
 
 #make an infinite loop that will create a mutation
 #of the bestList, score it
 while True:
      
     guess = mutate(bestList)
+    guesses += 1
     guessScore = score(guess)
     #print(''.join(bestList),bestScore)
 
@@ -58,8 +62,9 @@ while True:
 
 #otherwise if the score of the newlist is the optimal score,
 #print the list and break out of the loop
-    print(''.join(guess),guessScore,counter)
+    print(''.join(guess),guessScore,improvements,guesses)
     if guessScore == len(target):
+        
         break
 
 #otherwise, set the bestList to the value of the newList
@@ -67,7 +72,7 @@ while True:
     bestList = list(guess)
     bestScore = guessScore
 
-    counter += 1
+    improvements += 1
 
 '''guessList = makeList()
 print(''.join(guessList),score(guessList))
