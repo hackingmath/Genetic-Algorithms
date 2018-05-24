@@ -4,6 +4,10 @@ import random
 import copy
 import pprint
 
+import time
+
+time1 = time.time()
+
 N_BOARDS = 50000
 matingpool = []
 
@@ -57,6 +61,23 @@ class Board(object):
                     '''while num1 in newboard[ind]:
                         num1 = random.randint(1,9)'''
                     newboard[ind][i] = num1
+        return output
+
+    def randomFill(self):
+        '''randomly fills cells'''
+        output = Board()
+        #choose random number for row
+        newboard = copy.deepcopy(self.boardList)
+        #change a random number of cells:
+        swaps = random.randint(1,81)
+        #print(swaps)
+        for s in range(swaps):
+            row = random.randint(0,len(newboard)-1)
+            col = random.randint(0,len(newboard)-1)
+            if board1[row][col] != 0:
+                    newboard[row][col] = board1[row][col]
+            else:
+                newboard[row][col] = random.randint(1,9)
                 
         output.boardList = newboard[:]        
         return output
@@ -153,7 +174,7 @@ while reps < 20:
     while highScore > 0:
         #increment generation
         generation += 1
-        if no_improvements == 20:
+        if no_improvements == 6:
             break
         print("gen:",generation)
         matingPool = copy.deepcopy(popn)
@@ -161,7 +182,7 @@ while reps < 20:
         best_board = matingPool[0]
         newscore = best_board.score()
         if newscore == 0:
-            pprint.pprint(i.boardList)
+            pprint.pprint(best_board.boardList)
             break
         if newscore >= highScore:
             no_improvements += 1
@@ -188,5 +209,22 @@ while reps < 20:
         for j in range(1000):
             popn.append(Board())
 
+        for k in range(1000):
+            rand = best.randomFill()
+            popn.append(rand)
+
 pprint.pprint(globalbest.boardList)
 print("bestever:",globalhigh)
+
+print("Time:",time.time() - time1)
+
+#5 generations Score: 6
+'''best = [[6, 8, 9, 1, 3, 2, 4, 5, 7],
+ [4, 1, 3, 8, 6, 5, 2, 7, 9],
+ [3, 2, 8, 7, 9, 5, 1, 4, 6],
+ [8, 9, 1, 7, 5, 4, 3, 6, 2],
+ [4, 6, 3, 1, 2, 7, 8, 8, 6],
+ [7, 3, 4, 6, 5, 8, 9, 2, 1],
+ [3, 3, 8, 7, 8, 3, 6, 5, 2],
+ [2, 4, 3, 5, 7, 8, 7, 7, 2],
+ [8, 8, 6, 3, 1, 3, 5, 2, 9]]'''
